@@ -1,136 +1,106 @@
 Gestor de Clientes y Facturas (ONI-Ledger)
 
-Una aplicación web full-stack diseñada para la gestión de clientes y sus facturas. Permite registrar clientes, subir documentos fiscales, administrar facturas por cliente y enviar notificaciones por correo electrónico. El proyecto está protegido por un sistema de autenticación basado en JWT.
-Características Principales
+Una aplicación web full-stack diseñada para la gestión de clientes y sus facturas.  
+Permite registrar clientes, subir documentos fiscales, administrar facturas por cliente y enviar notificaciones por correo electrónico.  
+El proyecto está protegido por un sistema de autenticación basado en JWT.
 
-    Autenticación de Usuarios: Sistema completo de Registro y Login con tokens JWT y contraseñas encriptadas.
+---
 
-    Gestión de Clientes (CRUD): Funcionalidad completa para Crear, Leer, Actualizar y Eliminar clientes.
+## Características Principales
 
-    Subida de Archivos: Carga de constancias fiscales para cada cliente con almacenamiento organizado en el servidor.
+- Autenticación de Usuarios: Registro y Login con tokens JWT y contraseñas encriptadas.
+- Gestión de Clientes (CRUD): Crear, Leer, Actualizar y Eliminar clientes.
+- Subida de Archivos: Carga de constancias fiscales con almacenamiento organizado.
+- Gestión de Facturas: Añadir, ver, eliminar y enviar facturas asociadas a cada cliente.
+- Envío de Correos: Envío de facturas por correo electrónico con Nodemailer.
+- Búsqueda y Paginación: Filtrado y manejo de grandes volúmenes de datos.
 
-    Gestión de Facturas: Sistema para añadir, ver, eliminar y enviar facturas asociadas a cada cliente.
+---
 
-    Envío de Correos: Envío de facturas por correo electrónico directamente desde la aplicación usando Nodemailer.
+## Tecnologías Utilizadas
 
-    Búsqueda y Paginación: Filtrado de clientes y facturas, con paginación para manejar grandes volúmenes de datos.
+Frontend:
 
-Tecnologías Utilizadas
-Frontend
+- Framework: Next.js (App Router)
+- Lenguaje: TypeScript
+- Librerías: React, Axios
+- Estilos: React-Bootstrap, Bootstrap 5
 
-    Framework: Next.js (con App Router)
+Backend:
 
-    Lenguaje: TypeScript
+- Entorno: Node.js
+- Framework: Express
+- Base de Datos: PostgreSQL
+- Autenticación: JSON Web Tokens, bcryptjs, cookie-parser
+- Manejo de Archivos: Multer
+- Envío de Correos: Nodemailer
 
-    Librerías: React, Axios
+---
 
-    Estilos: React-Bootstrap, Bootstrap 5
-
-Backend
-
-    Entorno: Node.js
-
-    Framework: Express
-
-    Base de Datos: PostgreSQL
-
-    Autenticación: JSON Web Tokens (jsonwebtoken), bcryptjs, cookie-parser
-
-    Manejo de Archivos: Multer
-
-    Envío de Correos: Nodemailer
-
-Estructura del Proyecto
+## Estructura del Proyecto
 
 Este es un monorepo simple que contiene dos proyectos independientes:
 
-    /frontend: La aplicación de Next.js que consume la API.
+/frontend → Aplicación Next.js que consume la API  
+/backend → Servidor API con Node.js y Express
 
-    /backend: El servidor de API con Node.js y Express.
+---
 
-Guía de Instalación y Ejecución Local
+## Guía de Instalación y Ejecución Local
 
-Sigue estos pasos para levantar el proyecto en tu máquina local.
-Prerrequisitos
+Prerrequisitos:
 
-    Node.js (v18 o superior)
+- Node.js (v18 o superior)
+- PostgreSQL
+- Git
 
-    PostgreSQL
+1. Clonar el Repositorio:
+   git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+   cd TU_REPOSITORIO
 
-    Git
+2. Configurar el Backend:
+   cd backend
+   npm install
 
-1. Clonar el Repositorio
-
-git clone [https://github.com/TU_USUARIO/TU_REPOSITORIO.git](https://github.com/TU_USUARIO/TU_REPOSITORIO.git)
-cd TU_REPOSITORIO
-
-2. Configurar el Backend
-
-Primero, configura y levanta el servidor de la API.
-
-# Navega a la carpeta del backend
-
-cd backend
-
-# Instala las dependencias
-
-npm install
-
-# Crea un archivo .env en la raíz de /backend y configúralo (ver abajo)
-
-# Inicia el servidor de desarrollo (con nodemon)
+# Crear archivo .env en /backend (ver configuración más abajo)
 
 npm run dev
 
-El servidor del backend estará corriendo en http://localhost:3001. 3. Configurar el Frontend
+El backend estará disponible en: http://localhost:3001
 
-Abre una nueva terminal para configurar y levantar la aplicación de React.
+3. Configurar el Frontend:
+   cd frontend
+   npm install
+   npm run dev
 
-# Navega a la carpeta del frontend (desde la raíz del proyecto)
+El frontend estará disponible en: http://localhost:3000
 
-cd frontend
+---
 
-# Instala las dependencias
+## Variables de Entorno
 
-npm install
+Crea un archivo .env en la raíz de la carpeta /backend con el siguiente contenido:
 
-# Inicia el servidor de desarrollo
-
-npm run dev
-
-La aplicación de frontend estará corriendo en http://localhost:3000.
-Variables de Entorno
-
-Necesitas crear un archivo .env en la raíz de la carpeta /backend para que la aplicación funcione.
-Archivo .env en la carpeta /backend
-
-# Credenciales de la Base de Datos
-
-DB_USER=tu_usuario_postgres
-DB_PASSWORD=tu_contraseña_postgres
-DB_HOST=localhost
-DB_PORT=5432
+DB_USER=tu_usuario_postgres  
+DB_PASSWORD=tu_contraseña_postgres  
+DB_HOST=localhost  
+DB_PORT=5432  
 DB_NAME=tu_base_de_datos
-
-# Secreto para firmar los Tokens JWT
 
 JWT_SECRET=este_es_un_secreto_muy_largo_y_dificil_de_adivinar
 
-# Credenciales de Gmail para Nodemailer (usa una Contraseña de Aplicación de 16 dígitos)
-
-EMAIL_USER=tu.correo@gmail.com
+EMAIL_USER=tu.correo@gmail.com  
 EMAIL_PASS=xxxxxxxxxxxxxxxx
 
-Uso de la Aplicación
+---
 
-    Abre http://localhost:3000 en tu navegador.
+## Uso de la Aplicación
 
-    Serás redirigido a la página de /login. Si no tienes una cuenta, ve a /register para crear una.
-
-    Una vez iniciada la sesión, serás llevado al panel principal donde puedes ver y gestionar los clientes.
-
-    Puedes agregar, editar y eliminar clientes.
-
-    Al hacer clic en el nombre de un cliente, irás a su página de detalles.
-
-    En la página de detalles, puedes gestionar las facturas de ese cliente: subirlas, verlas, eliminarlas y enviarlas por correo.
+1. Abre http://localhost:3000 en tu navegador.
+2. Serás redirigido a /login.
+   - Si no tienes cuenta, regístrate en /register.
+3. Tras iniciar sesión, accederás al panel principal para gestionar clientes.
+4. Funcionalidades:
+   - Agregar, editar y eliminar clientes.
+   - Ver detalles de un cliente específico.
+   - Subir, ver, eliminar y enviar facturas por correo electrónico.
