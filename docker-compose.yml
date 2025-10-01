@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  # Servicio de la Base de Datos
+  db:
+    image: postgres:15-alpine
+    container_name: oniledger_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Servicio del Backend (API)
+  backend:
+    container_name: oniledger_api
+    build: ./backend
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      # Montamos la carpeta de uploads para que los archivos persistan
+      - ./backend/uploads:/usr/src/app/uploads
+    depends_on:
+      - db
+    # Pasamos las variables de entorno
+    env_file:
+      - ./backend/.env
+
+  # Servicio del Frontend (Next.js)
+  frontend:
+    container_name: oniledger_app
+    build: ./frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
