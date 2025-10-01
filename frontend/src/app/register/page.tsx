@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useAuth } from '@/context/AuthContext'; // Importamos nuestro hook
+import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import axios from 'axios'; // Importa axios para verificar el tipo de error
 
 export default function RegisterPage() {
     const [usuario, setUsuario] = useState('');
@@ -10,7 +11,6 @@ export default function RegisterPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     
-    // Obtenemos la función de registro
     const { register } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,10 +20,13 @@ export default function RegisterPage() {
 
         try {
             await register(usuario, contrasena);
-            // El AuthContext redirigirá a /login después del registro exitoso
-        } catch (err: any) {
+        } catch (err) { // <-- CORRECCIÓN: Quitamos ': any'
             console.error(err);
-            setError(err.response?.data?.message || 'Error al registrar el usuario.');
+            if (axios.isAxiosError(err) && err.response) {
+                setError(err.response.data.message || 'Error al registrar el usuario.');
+            } else {
+                setError('Ocurrió un error inesperado.');
+            }
             setLoading(false);
         }
     };
@@ -36,29 +39,13 @@ export default function RegisterPage() {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="usuario" className="form-label">Usuario</label>
-                            <input
-                                type="text"
-                                id="usuario"
-                                className="form-control"
-                                value={usuario}
-                                onChange={(e) => setUsuario(e.target.value)}
-                                required
-                            />
+                            <input type="text" id="usuario" className="form-control" value={usuario} onChange={(e) => setUsuario(e.target.value)} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="contrasena" className="form-label">Contraseña</label>
-                            <input
-                                type="password"
-                                id="contrasena"
-                                className="form-control"
-                                value={contrasena}
-                                onChange={(e) => setContrasena(e.target.value)}
-                                required
-                            />
+                            <input type="password" id="contrasena" className="form-control" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
                         </div>
-
                         {error && <div className="alert alert-danger p-2">{error}</div>}
-                        
                         <div className="d-grid mt-4">
                             <button type="submit" className="btn btn-success" disabled={loading}>
                                 {loading ? 'Registrando...' : 'Registrar'}
@@ -66,9 +53,7 @@ export default function RegisterPage() {
                         </div>
                     </form>
                     <div className="text-center mt-3">
-                        <small>
-                            ¿Ya tienes una cuenta? <Link href="/login">Inicia sesión aquí</Link>
-                        </small>
+                        <small>¿Ya tienes una cuenta? <Link href="/login">Inicia sesión aquí</Link></small>
                     </div>
                 </div>
             </div>
