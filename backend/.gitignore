@@ -1,0 +1,11 @@
+# Dependencias
+node_modules/
+
+# Archivos de entorno con secretos
+.env
+
+# Archivos subidos por los usuarios
+/uploads/
+
+# Archivos de log
+*.log
